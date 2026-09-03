@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-ink: 10 15 30;
+  --color-inkline: 38 50 74;
+  --color-surface: 20 27 48;
+  --color-paper: 244 240 228;
+  --color-paperdim: 201 211 224;
+  --color-teal: 92 156 140;
+  --color-glow-cyan: 94 234 212;
+}
+
+html.light {
+  --color-ink: 240 242 247;
+  --color-inkline: 205 213 227;
+  --color-surface: 255 255 255;
+  --color-paper: 18 24 38;
+  --color-paperdim: 71 85 105;
+  --color-teal: 15 118 110;
+  --color-glow-cyan: 8 116 129;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink text-paper font-body antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.plate, a, button {
+  transition: border-color 0.2s ease;
+}
+
+.blueprint-grid {
+  background-image:
+    linear-gradient(rgba(94, 234, 212, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94, 234, 212, 0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+}
+
+
+/* Línea de escaneo que recorre el hero una sola vez al cargar */
+@keyframes scan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(2200%); opacity: 0; }
+}
+
+.scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(94, 234, 212, 0.9), transparent);
+  animation: scan 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanline {
+    display: none;
+  }
+}
+
+/* Carrusel de habilidades: cinta infinita con máscara de desvanecido en los bordes */
+.marquee-viewport {
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 32s linear infinite;
+  width: max-content;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
+}
+
+/* Marcas de registro en las esquinas de cada "placa" — el motivo visual recurrente
+   de todo el sitio, como las cruces de una hoja de plano o de una tarjeta de calibración. */
+.plate {
+  position: relative;
+}
+
+.plate::before,
+.plate::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.plate::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+}
+
+.plate::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid #FF6B35;
+  outline-offset: 3px;
+}
